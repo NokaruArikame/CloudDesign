@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ClientWPF.Model
+{
+    [DataContract(IsReference=true)]
+    public class User
+    {
+        [DataMember(IsRequired =true)]
+        public int Id { get; set; }
+
+        [DataMember (IsRequired =true)]
+        public string Name { get; set; }
+
+        [DataMember(IsRequired =true)]
+        internal string Password { get; set; }
+
+        [DataMember]
+        public virtual UserCloud UserCloud { get; set; }
+        
+        //public int UserCloudId { get; set; }
+    }
+}

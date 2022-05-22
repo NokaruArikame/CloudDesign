@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerWCF", "ServerWCF.csproj", "{3F5759BB-0C67-4D91-AD27-EA9DE2A4518B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerEntityDataWCF", "..\ServerEntityDataWCF\ServerEntityDataWCF.csproj", "{FF6E5FDA-4674-4CEE-A2F8-E24963C38B21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F5759BB-0C67-4D91-AD27-EA9DE2A4518B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5759BB-0C67-4D91-AD27-EA9DE2A4518B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5759BB-0C67-4D91-AD27-EA9DE2A4518B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5759BB-0C67-4D91-AD27-EA9DE2A4518B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF6E5FDA-4674-4CEE-A2F8-E24963C38B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF6E5FDA-4674-4CEE-A2F8-E24963C38B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF6E5FDA-4674-4CEE-A2F8-E24963C38B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF6E5FDA-4674-4CEE-A2F8-E24963C38B21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {30A29EF5-D525-488D-A874-862EF4A0137E}
+	EndGlobalSection
+EndGlobal
