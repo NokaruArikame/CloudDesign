@@ -17,12 +17,8 @@ namespace ServerEntityDataWCF.Model
         [DataMember (IsRequired =true)]
         public string Name { get; set; }
 
-        [DataMember(IsRequired =true)]
-        internal string Password { get; set; }
-
         [DataMember]
         public virtual UserCloud UserCloud { get; set; }
-        
-        //public int UserCloudId { get; set; }
+
     }
 }

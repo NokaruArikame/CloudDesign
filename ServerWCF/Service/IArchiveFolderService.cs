@@ -11,8 +11,6 @@ namespace ServerWCF.Service
     [ServiceContract]
     public interface IArchiveFolderService
     {
-        //[OperationContract]
-        //void AddFolder(string name, int cloudId);
         [OperationContract]
         void AddFolder(string name, int parentFolderId);
 
@@ -21,11 +19,13 @@ namespace ServerWCF.Service
         [OperationContract]
         string GetFoldersJson(int parentFolderId);
 
-        //[OperationContract]
-        //ArchiveFolder GetFirstFolder(int cloudId);
+        [OperationContract]
+        string GetCloudJson(int userId);
 
-        //[OperationContract]
-        //List<ArchiveFolder> GetChildFolders(int parentId, int cloudId);
+        [OperationContract]
+        string[] GetData(int userId);
+
+        
 
     }
 }

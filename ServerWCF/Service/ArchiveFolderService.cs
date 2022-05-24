@@ -13,12 +13,12 @@ namespace ServerWCF.Service
     {
         /*public void AddFolder(string name, int cloudId)
         {
-            ArchiveFolderRepository.AddFolder(name, cloudId);
+            EntityArchiveFolderRepository.AddFolder(name, cloudId);
         }*/
 
         public void AddFolder(string name, int parentFolderId)
         {
-            ArchiveFolderRepository.AddFolder(name, parentFolderId);
+            EntityArchiveFolderRepository.AddFolder(name, parentFolderId);
         }
 
         /*public List<ArchiveFolder> GetChildFolders(int parentId, int cloudId)
@@ -33,7 +33,7 @@ namespace ServerWCF.Service
 
         public string GetFolders(int parentId)
         {
-            List<ArchiveFolder> folders = ArchiveFolderRepository.GetFolders(parentId);
+            List<ArchiveFolder> folders = EntityArchiveFolderRepository.GetFolders(parentId);
             StringBuilder foldersInfo = new StringBuilder(6);
             foreach (ArchiveFolder folder in folders)
             {
@@ -50,15 +50,33 @@ namespace ServerWCF.Service
         public string GetFoldersJson(int parentId)
         {
             List<ArchiveFolder> foldersList = 
-                ArchiveFolderRepository.GetFolders(parentId);
+                EntityArchiveFolderRepository.GetFolders(parentId);
             string foldersJson = 
                 EntityJsonSerializer.ArchiveFolderToJson(foldersList);
             return foldersJson;
         }
 
+        public string GetCloudJson(int userId)
+        {
+            UserCloud userCloud = EntityUserCloudRepository.GetCloud(userId);
+            string cloudJson;
+            cloudJson = EntityJsonSerializer.UserCloudToJson(userCloud);
+            return cloudJson;
+        }
+
+        public string[] GetData(int userId)
+        {
+            UserCloud userCloud = EntityUserCloudRepository.GetCloud(userId);
+            List<ArchiveFolder> archiveFolders = EntityArchiveFolderRepository.GetFolders(userCloud.Id);
+            string[] data = new string[2];
+            data[0] = EntityJsonSerializer.UserCloudToJson(userCloud);
+            data[1] = EntityJsonSerializer.ArchiveFolderToJson(archiveFolders);
+            return data;
+        }
+
         internal void RemoveUser(string name)
         {
-            UserRepository.RemoveUser(name);
+            EntityUserRepository.RemoveUser(name);
         }
     }
 }
