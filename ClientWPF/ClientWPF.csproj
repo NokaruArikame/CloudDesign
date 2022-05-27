@@ -60,6 +60,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\CloudViewModel.cs" />
+    <Compile Include="View\CloudView.xaml.cs">
+      <DependentUpon>CloudView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,7 +72,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Connected Services\SimpleService\Reference.cs">
+    <Compile Include="Connected Services\CloudService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -77,6 +81,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\CloudView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ArchiveFile.cs" />
@@ -101,11 +109,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\SimpleService\SimpleService.wsdl" />
-    <None Include="Connected Services\SimpleService\SimpleService.xsd">
+    <None Include="Connected Services\CloudService\CloudService.wsdl" />
+    <None Include="Connected Services\CloudService\item.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\SimpleService\SimpleService1.xsd">
+    <None Include="Connected Services\CloudService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CloudService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
@@ -121,22 +132,25 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\SimpleService\" />
+    <WCFMetadataStorage Include="Connected Services\CloudService\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\SimpleService\SimpleService.disco" />
+    <None Include="Connected Services\CloudService\item.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\SimpleService\configuration91.svcinfo" />
+    <None Include="Connected Services\CloudService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\SimpleService\configuration.svcinfo" />
+    <None Include="Connected Services\CloudService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\SimpleService\Reference.svcmap">
+    <None Include="Connected Services\CloudService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

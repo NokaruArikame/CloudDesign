@@ -5,27 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Closed="Window_Closed">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <TextBox x:Name="TestTextBox" Grid.Column="0" Grid.Row="0" ToolTip="Input folder Id"/>
-        <TextBlock x:Name="TestTextBlock" Grid.Column="1" Grid.Row="0" Text="" ScrollViewer.CanContentScroll="True"/>
-        <Button Grid.Column="0" Grid.Row="1" Content="Take Folders" Click="Button_Click"/>
-        <TreeView x:Name="TestTreeView" Grid.Column="1" Grid.Row="2" ItemsSource="{Binding}">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="TreeViewItem">
-                    <Setter Property="Header" Value="{Binding Name}"/>
-                    <Setter Property="ItemsSource" Value="{Binding Folders}"/>
-                </Style>
-            </TreeView.ItemContainerStyle>
-        </TreeView>
+      
     </Grid>
 </Window>

@@ -12,9 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ClientWPF.SimpleService;
 using ClientWPF.Model;
 using Newtonsoft.Json;
+using ClientWPF.CloudService;
+using ClientWPF.View;
+using ClientWPF.ViewModel;
 
 namespace ClientWPF
 {
@@ -23,24 +25,18 @@ namespace ClientWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<ArchiveFolder> archiveFolders;
         public MainWindow()
         {
-            InitializeComponent();
-
+            //InitializeComponent();
+            // Here must be Login realization
+            CloudView cloudView = new CloudView(this);
+            this.Hide();
+            cloudView.Show();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Window_Closed(object sender, EventArgs e)
         {
-            string foldersJson;
-            using(var client = new SimpleServiceClient())
-            {
-                foldersJson = 
-                    client.GetFoldersJson(int.Parse(TestTextBox.Text));
-            }
-            TestTextBlock.Text = foldersJson;
-            archiveFolders = JsonConvert.DeserializeObject<List<ArchiveFolder>>(foldersJson);
-            TestTreeView.DataContext = archiveFolders;
+
         }
     }
 }

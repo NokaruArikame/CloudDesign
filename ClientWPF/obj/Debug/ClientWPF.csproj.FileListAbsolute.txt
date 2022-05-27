@@ -17,3 +17,5 @@ C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\obj\Debug\ClientWPF.pdb
 C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\bin\Debug\Newtonsoft.Json.dll
 C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\bin\Debug\Newtonsoft.Json.xml
 C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\obj\Debug\ClientWPF.csproj.CopyComplete
+C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\obj\Debug\View\CloudView.g.cs
+C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\obj\Debug\View\CloudView.baml

@@ -13,7 +13,7 @@ namespace ServerWCF
 
 
     [ServiceContract]
-    public interface ICloudService : IUserService
+    public interface ICloudService : IUserService,IArchiveFolderService
     {
         [OperationContract]
         string Hello();

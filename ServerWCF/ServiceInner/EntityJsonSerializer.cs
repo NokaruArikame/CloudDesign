@@ -41,6 +41,22 @@ namespace ServerWCF.ServiceInner
             return archiveFolders;
         } 
 
+        public static string ArchiveFileToJson(List<ArchiveFile> archiveFiles)
+        {
+            string fileString = JsonConvert.SerializeObject(archiveFiles, Formatting.Indented);
+            return fileString;
+        }
+
+        public static List<ArchiveFile> JsonToArchiveFiles(string archiveFilesJson)
+        {
+            if(string.IsNullOrEmpty(archiveFilesJson))
+                throw new ArgumentNullException(nameof(archiveFilesJson));
+            List<ArchiveFile> archiveFiles = 
+                JsonConvert.DeserializeObject<List<ArchiveFile>>(archiveFilesJson);
+            return archiveFiles;
+        }
+
+
         public static string UserCloudToJson(UserCloud userCloud)
         {
             if(userCloud == null)

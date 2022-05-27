@@ -11,9 +11,9 @@ namespace ServerWCF.Service
     public interface IUserService
     {
         [OperationContract]
-        string GetUser(string name);
+        string GetUser(string name); // *
         [OperationContract]
-        void AddUser(string name, string password);
+        void AddUser(string name, string password); // *
         [OperationContract]
         bool RemoveUser(string name);
         [OperationContract]
@@ -21,7 +21,7 @@ namespace ServerWCF.Service
         [OperationContract]
         bool LogoutUser(int userId);
         [OperationContract]
-        bool ChangePasswordUser(string oldPassword, string newPassword);
+        bool ChangePasswordUser(string oldPassword, string newPassword); // *
 
         [OperationContract]
         string GetAuthInfo();

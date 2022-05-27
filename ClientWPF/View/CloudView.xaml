@@ -1,0 +1,56 @@
+﻿<Window x:Class="ClientWPF.View.CloudView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientWPF.View"
+        mc:Ignorable="d"
+        Title="CloudView" Height="450" Width="800"
+        Closed="Window_Closed">
+    <Window.Resources>
+        <DataTemplate x:Key="CloudPanel">
+            <StackPanel>
+                <TextBlock Text="Name"/>
+                <TextBlock Text="Size"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Name="MainWrapGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Height="25" VerticalAlignment="Top">
+            <MenuItem Header="File"></MenuItem>
+            <MenuItem Header="View"></MenuItem>
+            <MenuItem Header="Account"></MenuItem>
+        </Menu>
+
+        <Grid Name="FileWrapGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TreeView MinWidth="100" Width="150" HorizontalAlignment="Left">
+                <TextBlock Text="Example Cloud"/>
+                <TreeViewItem>
+                    <TextBlock Text="Example Folder"/>
+                    <TreeViewItem>
+                        <TextBlock Text="Example File"/>
+                    </TreeViewItem>
+                </TreeViewItem>
+            </TreeView>
+            <ListBox>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="Folder"/>
+                            <TextBlock Text="File"/>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </Grid>
+        
+    </Grid>
+</Window>

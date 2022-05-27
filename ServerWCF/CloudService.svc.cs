@@ -76,6 +76,6 @@ namespace ServerWCF
         public string GetAuthInfo() => userService.GetAuthInfo();
 
         #endregion
-
+        
     }
 }

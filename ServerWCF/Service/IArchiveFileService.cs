@@ -10,12 +10,15 @@ namespace ServerWCF.Service
     public interface IArchiveFileService
     {
         [OperationContract]
-        bool AddArchiveFiles(string filesJson);
+        bool AddArchiveFiles(string filesJson); // +
 
         [OperationContract]
-        bool DeleteArchiveFiles(string filesId);
+        bool DeleteArchiveFiles(int fileId); // +
 
         [OperationContract]
-        string GetArchiveFiles(string userId);
+        string GetArchiveFiles(int userId); // +
+
+        [OperationContract]
+        bool ChangeParentFolder(int newParentId, int fileId); // +
     }
 }
