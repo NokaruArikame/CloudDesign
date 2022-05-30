@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ClientWPF.Model
 {
     [DataContract(IsReference =true)]
-    public class ArchiveFolder : IFolder
+    public class ArchiveFolder : IFolder, ICloudItem
     {
         /*[DataMember(IsRequired = true)]
         public string Name { get; set; }

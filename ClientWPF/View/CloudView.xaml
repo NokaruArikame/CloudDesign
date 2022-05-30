@@ -3,17 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ClientWPF.View"
+        xmlns:local="clr-namespace:ClientWPF.View" 
+        xmlns:viewmodel="clr-namespace:ClientWPF.ViewModel" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:CloudViewModel}"
         mc:Ignorable="d"
         Title="CloudView" Height="450" Width="800"
         Closed="Window_Closed">
     <Window.Resources>
-        <DataTemplate x:Key="CloudPanel">
-            <StackPanel>
-                <TextBlock Text="Name"/>
-                <TextBlock Text="Size"/>
-            </StackPanel>
-        </DataTemplate>
     </Window.Resources>
     <Grid Name="MainWrapGrid">
         <Grid.RowDefinitions>
@@ -24,32 +21,80 @@
             <MenuItem Header="File"></MenuItem>
             <MenuItem Header="View"></MenuItem>
             <MenuItem Header="Account"></MenuItem>
+            <MenuItem Header="Exit" Command="{Binding TestRelayCommand}"/>
         </Menu>
 
         <Grid Name="FileWrapGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition>
+                </ColumnDefinition>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TreeView MinWidth="100" Width="150" HorizontalAlignment="Left">
-                <TextBlock Text="Example Cloud"/>
-                <TreeViewItem>
-                    <TextBlock Text="Example Folder"/>
-                    <TreeViewItem>
-                        <TextBlock Text="Example File"/>
-                    </TreeViewItem>
-                </TreeViewItem>
-            </TreeView>
-            <ListBox>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel>
-                            <TextBlock Text="Folder"/>
-                            <TextBlock Text="File"/>
-                        </WrapPanel>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
+            <StackPanel>
+                <TreeView x:Name="CloudTreeView" 
+                      
+                      MinWidth="100"
+                      Width="150" 
+                      HorizontalAlignment="Left" 
+                      ItemsSource="{Binding Folders}"
+                      >
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Open"/>
+                            <MenuItem Header="Add folder"/>
+                            <MenuItem Header="Add file"/>
+                            <MenuItem Header="Rename"/>
+                            <MenuItem Header="Remove folder"/>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding SelectFolderCommand}"
+                                               CommandParameter="{Binding ElementName=CloudTreeView, Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Folders}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}">
+                                </TextBlock>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                    <!--TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="Focusable" Value="True"/>
+                        <Setter Property="Header" Value="{Binding Name}"/>
+                        <Setter Property="ItemsSource" Value="{Binding Folders}"/>
+                    </Style>
+                </TreeView.ItemContainerStyle-->
+                </TreeView>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Add folder" Command="{Binding AddFolderCommand}"
+                            CommandParameter="{Binding ElementName=CloudTreeView, Path=SelectedItem}"/>
+                </StackPanel>
+            </StackPanel>
+            
+            <TabControl x:Name="CloudItemsTab" Grid.Column="1">
+                <TabItem Header="Only Files">
+                    <ListBox x:Name="CloudFilesListBox"
+                     ItemsSource="{Binding SelectedFolder.Files}" 
+                     HorizontalAlignment="Stretch"
+                     ItemTemplate="{StaticResource CloudFilePanel}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel>
+                                </WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </TabItem>
+                <TabItem Header="Classic view">
+                    <ListBox x:Name="CloudItemsBox" ItemsSource="{Binding }">
+
+                    </ListBox>
+                </TabItem>
+            </TabControl>
         </Grid>
         
     </Grid>

@@ -31,23 +31,7 @@ namespace ServerWCFConsole
                         var serviceType = Type.GetType(element.Name+",ServerWCF");
                         var host = new ServiceHost(serviceType);
                         Console.WriteLine("Host address: " + host.BaseAddresses.First().ToString());
-                        /*foreach(ServiceEndpointElement endpoint in element.Endpoints)
-                        {
-                            Console.WriteLine();
-                            Console.WriteLine("host: "+host.BaseAddresses.First().ToString()+"\nEndpoint: "+endpoint.Address);
-                            if (endpoint.Binding.ToString() == "mexHttpsBinding")
-                                continue;
-                            if (endpoint.Address.ToString() == "")
-                                continue;
-                            ServiceEndpoint serviceEndpoint = EndpointService.GetEndpointFromElement(   endpoint,
-                                                                                                        bindingsSection);
-                            EndpointAddress endpointAddress = new EndpointAddress(  host.BaseAddresses.First().ToString() + 
-                                                                                    endpoint.Address.ToString());
-                            serviceEndpoint.Address = endpointAddress;
-                            host.AddServiceEndpoint(serviceEndpoint);
-                            Console.WriteLine("Endpoint "+ serviceEndpoint.Name+" added.");
-                            //host.AddServiceEndpoint(endpoint.Contract.ToString(),endpoint.Binding.ToString(),endpoint.Address.ToString());
-                        }*/
+                        
                         foreach (ServiceEndpoint serviceEndpoint in host.Description.Endpoints)
                         {
                             Console.WriteLine("Endpoint name: " + serviceEndpoint.Name + "\nEndpoint Address: " + serviceEndpoint.Address);
@@ -75,31 +59,6 @@ namespace ServerWCFConsole
                     }
                 }
             }
-            /*using (ServiceHost host = new ServiceHost(typeof(CloudService)))
-            {
-                var endpoints = host.Extensions.FindAll<EndpointAddress>().ToArray();
-                if (endpoints.Length == 0)
-                    Console.WriteLine("No endpoints");
-                foreach (EndpointAddress endpoint in endpoints)
-                    Console.WriteLine(endpoint.ToString());
-                string terminate;
-                try
-                {
-                    host.Open();
-                    Console.WriteLine("The service is ready.");
-                    Console.WriteLine("Input exit to terminate service.");
-                    do
-                    {
-                        terminate = Console.ReadLine();
-                    }
-                    while (terminate != "exit");
-                }
-                catch (TimeoutException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.ReadLine();
-                }
-            }*/
         }
     }
 }

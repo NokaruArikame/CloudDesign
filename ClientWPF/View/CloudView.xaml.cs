@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ClientWPF.ViewModel;
 
 namespace ClientWPF.View
 {
@@ -24,6 +25,7 @@ namespace ClientWPF.View
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
+            this.DataContext = new CloudViewModel();
         }
 
         private void Window_Closed(object sender, EventArgs e)
