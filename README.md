@@ -1,4 +1,4 @@
-# DigitalDesignCloud
+# CloudDesign
 Клиент-серверное приложение - облачное хранилище.
 
 Стек:
