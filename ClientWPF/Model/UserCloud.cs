@@ -20,6 +20,16 @@ namespace ClientWPF.Model
         public virtual User User { get; set; }
 
         public int UserId { get; set; }
+        public override IFolder ParentFolder
+        {
+            get { return this; }
+            set {; }
+        }
+        public override int ParentId
+        {
+            get { return this.Id; }
+            set {; }
+        }
 
         //[DataMember(IsRequired = false)]
         //public virtual List<ArchiveFolder> Folders { get; set; } =new List<ArchiveFolder>();

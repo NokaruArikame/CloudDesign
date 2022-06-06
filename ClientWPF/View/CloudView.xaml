@@ -8,14 +8,20 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
         d:DataContext="{d:DesignInstance Type=viewmodel:CloudViewModel}"
         mc:Ignorable="d"
-        Title="CloudView" Height="450" Width="800"
-        Closed="Window_Closed">
+        Title="CloudView" Height="450" Width="800" MinHeight="300" MinWidth="400"
+        Closed="Window_Closed"
+        x:Name="CloudWindow">
     <Window.Resources>
+        <Style x:Key="GridStyle" TargetType="{x:Type Grid}">
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
     </Window.Resources>
-    <Grid Name="MainWrapGrid">
+    <Grid Name="MainWrapGrid" Style="{StaticResource GridStyle}">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Menu Height="25" VerticalAlignment="Top">
             <MenuItem Header="File"></MenuItem>
@@ -24,63 +30,68 @@
             <MenuItem Header="Exit" Command="{Binding TestRelayCommand}"/>
         </Menu>
 
-        <Grid Name="FileWrapGrid" Grid.Row="1">
+        <Grid Name="FileWrapGrid" Grid.Row="1" Style="{StaticResource GridStyle}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition>
-                </ColumnDefinition>
+                <ColumnDefinition MinWidth="50" Width="150"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel>
+            <StackPanel Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                        >
                 <TreeView x:Name="CloudTreeView" 
-                      
+                      VerticalAlignment="Stretch"
+                      VerticalContentAlignment="Stretch"
                       MinWidth="100"
                       Width="150" 
                       HorizontalAlignment="Left" 
-                      ItemsSource="{Binding Folders}"
+                      ItemsSource="{Binding CloudItems}"
                       >
-                    <TreeView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Open"/>
-                            <MenuItem Header="Add folder"/>
-                            <MenuItem Header="Add file"/>
-                            <MenuItem Header="Rename"/>
-                            <MenuItem Header="Remove folder"/>
-                        </ContextMenu>
-                    </TreeView.ContextMenu>
-                    <i:Interaction.Triggers>
+                    <!--i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonUp">
                             <i:InvokeCommandAction Command="{Binding SelectFolderCommand}"
                                                CommandParameter="{Binding ElementName=CloudTreeView, Path=SelectedItem}"/>
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:Interaction.Triggers-->
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Folders}">
-                            <StackPanel Orientation="Horizontal">
+                        <HierarchicalDataTemplate ItemsSource="{Binding ChildrenFolders}">
+                            <StackPanel Orientation="Horizontal" Tag="{Binding ElementName=CloudWindow}">
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add new folder" Command="{Binding Path=PlacementTarget.Tag.DataContext.AddFolderItemCommand,
+                                                                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                                                  CommandParameter="{Binding}"/>
+                                        <MenuItem Header="Add new file" Command="{Binding Path=PlacementTarget.Tag.DataContext.AddFileItemCommand,
+                                                                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                                                  CommandParameter="{Binding}"/>
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
                                 <TextBlock Text="{Binding Name}">
                                 </TextBlock>
                             </StackPanel>
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
-                    <!--TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="Focusable" Value="True"/>
-                        <Setter Property="Header" Value="{Binding Name}"/>
-                        <Setter Property="ItemsSource" Value="{Binding Folders}"/>
-                    </Style>
-                </TreeView.ItemContainerStyle-->
+
                 </TreeView>
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Add folder" Command="{Binding AddFolderCommand}"
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                    <Button Content="Add folder" Command="{Binding AddFolderItemCommand}"
                             CommandParameter="{Binding ElementName=CloudTreeView, Path=SelectedItem}"/>
+                    <Button Content="Show folders" Command="{Binding ShowFoldersCommand}"/>
                 </StackPanel>
             </StackPanel>
             
             <TabControl x:Name="CloudItemsTab" Grid.Column="1">
                 <TabItem Header="Only Files">
                     <ListBox x:Name="CloudFilesListBox"
-                     ItemsSource="{Binding SelectedFolder.Files}" 
+                     ItemsSource="{Binding Path=SelectedItem.Files, Source={x:Reference Name=CloudTreeView}}" 
                      HorizontalAlignment="Stretch"
-                     ItemTemplate="{StaticResource CloudFilePanel}">
+                     ItemTemplate="{StaticResource CloudFilePanel}"
+                     Tag="{Binding ElementName=CloudWindow}">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add new file" Command="{Binding Path=PlacementTarget.Tag.DataContext.AddFileItemCommand,
+                                                                                            RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                                                      CommandParameter="{Binding Path=SelectedItem, Source={x:Reference Name=CloudTreeView}}"/>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel>
@@ -96,6 +107,6 @@
                 </TabItem>
             </TabControl>
         </Grid>
-        
+        <TextBlock Grid.Row="2" Text="{Binding SelectedFolder.Name}"/>
     </Grid>
 </Window>

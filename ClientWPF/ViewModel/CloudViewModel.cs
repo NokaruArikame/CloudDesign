@@ -9,25 +9,53 @@ using ClientWPF.Model;
 using ClientWPF.View;
 using ClientWPF.CloudService;
 using ClientWPF;
+using System.Windows;
+using System.Collections.Specialized;
+using System.Windows.Data;
+using System.Collections.ObjectModel;
 
 namespace ClientWPF.ViewModel
 {
     public class CloudViewModel : INotifyPropertyChanged
     {
 
+        private ObservableCollection<CloudItem<ICloudItem>> folderItems;
+        // ObservableCollection<CloudItem<FileItem>> fileItems;
+
         private List<ArchiveFile> archiveFiles;
         private List<ArchiveFolder> archiveFolders;
-        private List<IFolder> folders;
+        private ObservableCollection<IFolder> folders;
+        
+        private ICollectionView foldersView;
         private User user;
         private UserCloud userCloud;
-        private BindingList<ICloudItem> cloudItems;
+        //private BindingList<ICloudItem> cloudItems;
         private IFolder selectedFolder;
 
         private RelayCommand selectFolderCommand;
         private RelayCommand testRelayCommand;
         private RelayCommand addFolderCommand;
+        private RelayCommand showFoldersCommand;
+        private RelayCommand addFolderItemCommand;
+
+        private RelayCommand addFileItemCommand;
+        private RelayCommand deleteFileItemCommand;
+
+        #region experimental GettersSetters
+        public ObservableCollection<CloudItem<ICloudItem>> CloudItems
+        {
+            get { return folderItems; }
+            set { folderItems = value; }
+        }
+
+
+
+
+        #endregion
 
         #region Items GettersSetters
+
+        public ICollectionView FoldersView { get { return foldersView; } set { foldersView = value; } }
 
         public User User
         {
@@ -53,7 +81,7 @@ namespace ClientWPF.ViewModel
             }
         }
 
-        public List<IFolder > Folders
+        public ObservableCollection<IFolder> Folders
         {
             get { return folders; }
             set 
@@ -72,7 +100,7 @@ namespace ClientWPF.ViewModel
             }
         }
 
-        public BindingList<ICloudItem> CloudItems
+        /*public BindingList<ICloudItem> CloudItems
         {
             get { return cloudItems; }
             set
@@ -80,7 +108,7 @@ namespace ClientWPF.ViewModel
                 cloudItems = value;
                 OnPropertyChanged("CloudItems");
             }
-        }
+        }*/
 
         public IFolder SelectedFolder
         {
@@ -132,11 +160,14 @@ namespace ClientWPF.ViewModel
         {
             get {
                 return addFolderCommand ??
-                  (new RelayCommand((obj) =>
+                  (addFolderCommand = new RelayCommand((obj) =>
                   {
                       IFolder parentFolder = obj as IFolder;
+                      System.Diagnostics.Debug.WriteLine("Add new folder to "+parentFolder?.Name);
+                      Random rnd = new Random();
                       ArchiveFolder archiveFolder = new ArchiveFolder()
                       {
+                          Id=rnd.Next(100,1000),
                           Name = "New Folder",
                           ParentFolder = parentFolder,
                           ParentId = parentFolder.Id,
@@ -144,11 +175,100 @@ namespace ClientWPF.ViewModel
                           Folders = new List<ArchiveFolder>()
                       };
                       parentFolder.Folders.Add(archiveFolder);
-                      Folders.Add(archiveFolder);
                   }));
             }
         }
 
+        public RelayCommand AddFolderItemCommand
+        {
+            get {
+                return addFolderItemCommand ??
+                  (addFolderItemCommand = new RelayCommand((selectedFolder) =>
+                  {
+                      FolderItem parentFolder = selectedFolder as FolderItem;
+                      Random rnd = new Random();
+                      parentFolder.Add(new ArchiveFolder()
+                      {
+                          Id = rnd.Next(100, 1000),
+                          Name = "New Folder",
+                          ParentFolder = parentFolder.Item,
+                          ParentId = parentFolder.Item.Id,
+                          Files = new List<ArchiveFile>(),
+                          Folders = new List<ArchiveFolder>()
+                      });
+                  }));
+                    }
+        }
+
+        public RelayCommand ShowFoldersCommand
+        {
+            get {
+                return showFoldersCommand ??
+                  (showFoldersCommand = new RelayCommand((obj) =>
+                  {
+                      StringBuilder stringBuilder = new StringBuilder();
+                      foreach(IFolder folder in Folders)
+                      {
+                          stringBuilder.Append(folder.Name);
+                          foreach(IFolder folder1 in folder.Folders)
+                          {
+                              stringBuilder.Append(folder1.Name);
+                              foreach(IFolder folder2 in folder1.Folders)
+                              {
+                                  stringBuilder.Append(folder2.Name);
+                              }
+                          }
+                      }
+                      MessageBox.Show(stringBuilder.ToString());
+                  }));
+                    }
+        }
+
+        public RelayCommand AddFileItemCommand
+        {
+            get
+            {
+                return addFileItemCommand ??
+                    (addFileItemCommand = new RelayCommand((obj) =>
+                    {
+                        FolderItem parentFolder = obj as FolderItem;
+                        if (parentFolder == null)
+                            return;
+                        Random rnd = new Random();
+                        ArchiveFile newFile = new ArchiveFile()
+                        {
+                            Name = "New File",
+                            Id = rnd.Next(100, 1000),
+                            ParentFolder = parentFolder.Item,
+                            ParentId = parentFolder.Item.Id,
+                            Size = rnd.Next(0, 1000),
+                            Path = "",
+                            UserCloud = UserCloud,
+                            UserCloudId = UserCloud.Id
+                        };
+                        parentFolder.Add(newFile);
+                    }));
+            }
+        }
+
+        public RelayCommand DeleteFileItemCommand
+        {
+            get {
+                return deleteFileItemCommand ??
+                  (deleteFileItemCommand = new RelayCommand((obj) =>
+                  {
+                      var values = (object[])obj;
+                      ArchiveFile delFile = values[0] as ArchiveFile;
+                      FolderItem parentFolder = values[1] as FolderItem;
+                      //if (delFile == null)
+                      //    return;
+                      delFile.ParentFolder.Files.Remove(delFile);
+                      parentFolder.Files.Remove(delFile);
+                      delFile = null;
+                      //System.Diagnostics.Debug.WriteLine("Deleted file: " + delFile.Name);
+                  }));        
+            }
+        }
 
         #endregion
 
@@ -273,31 +393,64 @@ namespace ClientWPF.ViewModel
             this.UserCloud.Folders.Add(folder2);
             this.UserCloud.Folders.Add(folder3);*/
 
+            CloudItems = new ObservableCollection<CloudItem<ICloudItem>>();
+            CloudItem<ICloudItem> cloudItem = new FolderItem<IFolder>(UserCloud) as CloudItem<ICloudItem>; 
+            CloudItems.Add(new FolderItem(UserCloud));
 
-            CloudItems = new BindingList<ICloudItem>();
 
-            CloudItems.Add(folder1);
-            //CloudItems.Add(folder2);
+            //CloudItems = new BindingList<ICloudItem>();
+
+            /*CloudItems.Add(folder1);
+            CloudItems.Add(folder2);
             CloudItems.Add(folder3);
-            CloudItems.Add(archiveFile1);
-            //CloudItems.Add(archiveFile2);
-            Folders = new List<IFolder>();
+            //CloudItems.Add(archiveFile1);
+            //CloudItems.Add(archiveFile2);*/
+
+            Folders = new ObservableCollection<IFolder>();
             Folders.Add(UserCloud);
+
+            FoldersView = new ListCollectionView(Folders);
+            FoldersView.CurrentChanged += FoldersViewSelectionChanged;
+            FoldersView.CollectionChanged += FoldersViewChanged;
            /*Folders.Add(folder1);
             Folders.Add(folder2);
             Folders.Add(folder3);*/
-
-            SelectedFolder = UserCloud;
+            //SelectedFolder = UserCloud;
             #endregion
         }
 
+        private void FoldersViewSelectionChanged(object sender, EventArgs e)
+        {
+            SelectedFolder = FoldersView.CurrentItem as IFolder;
+        }
+
+        private void FoldersViewChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            
+        }
+
+        public ObservableCollection<IFolder> GetFolders()
+        {
+            return new ObservableCollection<IFolder>(Folders);
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
+        //public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             if(PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
+
+        /*public void OnCollectionChanged([CallerMemberName]string coll = "")
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(coll));
+            }
+        }*/
 
     }
 }

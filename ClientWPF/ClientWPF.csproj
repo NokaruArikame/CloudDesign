@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -63,10 +65,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\ObservableItems\CloudItem.cs" />
+    <Compile Include="Model\ObservableItems\FileItem.cs" />
     <Compile Include="Model\ICloudItem.cs" />
+    <Compile Include="Model\ObservableItems\FolderItem.cs" />
+    <Compile Include="Model\ObservableItems\ObservableCloudItems.cs" />
     <Compile Include="Service\EntityJsonSerializer.cs" />
     <Compile Include="Service\FileService.cs" />
     <Compile Include="ViewModel\CloudViewModel.cs" />
+    <Compile Include="ViewModel\MultiBindingConverter.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="View\ArchiveFolderWondow.xaml.cs">
       <DependentUpon>ArchiveFolderWondow.xaml</DependentUpon>

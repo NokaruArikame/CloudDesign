@@ -26,3 +26,4 @@ C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\bin\Debug\Microsoft.Xaml.Behaviors.p
 C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\bin\Debug\Microsoft.Xaml.Behaviors.xml
 C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\obj\Debug\View\ArchiveFolderWondow.g.cs
 C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\obj\Debug\View\ArchiveFolderWondow.baml
+C:\Projects\Csh\WCF\DigitalDesign\ClientWPF\obj\Debug\GeneratedInternalTypeHelper.g.cs

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ClientWPF.Model
 {
     [DataContract]
-    public abstract class IFolder
+    public abstract class IFolder : ICloudItem
     {
         [DataMember(IsRequired = true)]
         public int Id { get; set; }
@@ -21,5 +21,7 @@ namespace ClientWPF.Model
 
         [DataMember(IsRequired = false)]
         public List<ArchiveFolder> Folders { get; set; } = new List<ArchiveFolder>();
+        public virtual IFolder ParentFolder { get; set; }
+        public virtual int ParentId { get; set; }
     }
 }

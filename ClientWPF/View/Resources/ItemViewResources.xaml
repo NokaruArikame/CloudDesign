@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:imgaes="clr-namespace:ClientWPF.View">
+                    xmlns:imgaes="clr-namespace:ClientWPF.View"
+                    xmlns:viewmodel="clr-namespace:ClientWPF.ViewModel">
+    <viewmodel:MultiBindingConverter x:Key="DelConverter"></viewmodel:MultiBindingConverter>
     <DataTemplate x:Key="CloudPanel">
         <StackPanel>
             <TextBlock Text="{Binding Path=Name}"/>
@@ -8,7 +10,21 @@
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="CloudFilePanel">
-        <StackPanel>
+        <StackPanel Tag="{Binding ElementName=CloudWindow}">
+            <StackPanel.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Command="{Binding Path=PlacementTarget.Tag.DataContext.DeleteFileItemCommand,
+                                                        RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                              >
+                        <MenuItem.CommandParameter>
+                            <MultiBinding Converter="{StaticResource DelConverter}">
+                                <Binding Path=""/>
+                                <Binding Path="SelectedItem"/> <!--Add Source-->
+                            </MultiBinding>
+                        </MenuItem.CommandParameter>
+                    </MenuItem>
+                </ContextMenu>
+            </StackPanel.ContextMenu>
             <Image Source="../Resources/Images/fileIcon.png"/>
             <TextBlock Text="{Binding Path=Name}"/>
         </StackPanel>
