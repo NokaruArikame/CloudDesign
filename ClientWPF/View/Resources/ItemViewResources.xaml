@@ -15,13 +15,8 @@
                 <ContextMenu>
                     <MenuItem Header="Delete" Command="{Binding Path=PlacementTarget.Tag.DataContext.DeleteFileItemCommand,
                                                         RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ContextMenu}}"
+                              CommandParameter="{Binding}"
                               >
-                        <MenuItem.CommandParameter>
-                            <MultiBinding Converter="{StaticResource DelConverter}">
-                                <Binding Path=""/>
-                                <Binding Path="SelectedItem"/> <!--Add Source-->
-                            </MultiBinding>
-                        </MenuItem.CommandParameter>
                     </MenuItem>
                 </ContextMenu>
             </StackPanel.ContextMenu>

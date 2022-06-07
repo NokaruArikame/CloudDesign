@@ -16,6 +16,7 @@ namespace ClientWPF.Model
             get { return Item.Name; }
             set { Item.Name = value; }
         }
+        public FolderItem ParentFolderItem { get; set; }
         public FileItem(ArchiveFile archiveFile) :base(archiveFile)
         {
         }

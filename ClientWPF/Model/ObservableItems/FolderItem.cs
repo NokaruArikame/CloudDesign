@@ -15,7 +15,7 @@ namespace ClientWPF.Model
             set { Item.Name = value; }
         }
         public ObservableCollection<FolderItem> ChildrenFolders { get; set; }
-        public ObservableCollection<ArchiveFile> Files { get; set; }
+        public ObservableCollection<FileItem> Files { get; set; }
 
         public FolderItem(IFolder folder):base(folder)
         {
@@ -24,25 +24,25 @@ namespace ClientWPF.Model
             {
                 ChildrenFolders.Add(new FolderItem(f));
             }
-            Files = new ObservableCollection<ArchiveFile>();
+            Files = new ObservableCollection<FileItem>();
             foreach(ArchiveFile f in Item.Files)
             {
-                Files.Add(f);
+                Files.Add(new FileItem(f) { ParentFolderItem = this});
             }
 
 
         }
 
-        public void Add(IFolder folder)
+        public void Add(ArchiveFolder folder)
         {
-            Item.Folders.Add(folder as ArchiveFolder);
+            Item.Folders.Add(folder);
             ChildrenFolders.Add(new FolderItem(folder));
         }
 
         public void Add(ArchiveFile archiveFile)
         {
-            Item.Files.Add(archiveFile as ArchiveFile);
-            Files.Add(archiveFile);
+            Item.Files.Add(archiveFile);
+            Files.Add(new FileItem(archiveFile) { ParentFolderItem = this }) ;
         }
 
 

@@ -19,7 +19,7 @@ namespace ClientWPF.ViewModel
     public class CloudViewModel : INotifyPropertyChanged
     {
 
-        private ObservableCollection<CloudItem<ICloudItem>> folderItems;
+        private ObservableCollection<FolderItem> folderItems;
         // ObservableCollection<CloudItem<FileItem>> fileItems;
 
         private List<ArchiveFile> archiveFiles;
@@ -42,7 +42,7 @@ namespace ClientWPF.ViewModel
         private RelayCommand deleteFileItemCommand;
 
         #region experimental GettersSetters
-        public ObservableCollection<CloudItem<ICloudItem>> CloudItems
+        public ObservableCollection<FolderItem> CloudItems
         {
             get { return folderItems; }
             set { folderItems = value; }
@@ -257,12 +257,15 @@ namespace ClientWPF.ViewModel
                 return deleteFileItemCommand ??
                   (deleteFileItemCommand = new RelayCommand((obj) =>
                   {
-                      var values = (object[])obj;
-                      ArchiveFile delFile = values[0] as ArchiveFile;
-                      FolderItem parentFolder = values[1] as FolderItem;
+                      //return;
+                      /*var values = (object[])obj;
+                      FileItem delFile = values[0] as FileItem;
+                      FolderItem parentFolder = values[1] as FolderItem;*/
                       //if (delFile == null)
                       //    return;
-                      delFile.ParentFolder.Files.Remove(delFile);
+                      FileItem delFile = obj as FileItem;
+                      FolderItem parentFolder = delFile.ParentFolderItem;
+                      //delFile.Item.ParentFolder.Files.Remove(delFile.Item);
                       parentFolder.Files.Remove(delFile);
                       delFile = null;
                       //System.Diagnostics.Debug.WriteLine("Deleted file: " + delFile.Name);
@@ -392,9 +395,10 @@ namespace ClientWPF.ViewModel
             /*this.UserCloud.Folders.Add(folder1);
             this.UserCloud.Folders.Add(folder2);
             this.UserCloud.Folders.Add(folder3);*/
+            #endregion
 
-            CloudItems = new ObservableCollection<CloudItem<ICloudItem>>();
-            CloudItem<ICloudItem> cloudItem = new FolderItem<IFolder>(UserCloud) as CloudItem<ICloudItem>; 
+            #region Observable collection forming
+            CloudItems = new ObservableCollection<FolderItem>();
             CloudItems.Add(new FolderItem(UserCloud));
 
 

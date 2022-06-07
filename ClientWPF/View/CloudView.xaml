@@ -53,7 +53,7 @@
                     </i:Interaction.Triggers-->
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding ChildrenFolders}">
-                            <StackPanel Orientation="Horizontal" Tag="{Binding ElementName=CloudWindow}">
+                            <StackPanel Orientation="Vertical" Tag="{Binding ElementName=CloudWindow}">
                                 <StackPanel.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Add new folder" Command="{Binding Path=PlacementTarget.Tag.DataContext.AddFolderItemCommand,
@@ -64,8 +64,24 @@
                                                   CommandParameter="{Binding}"/>
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
-                                <TextBlock Text="{Binding Name}">
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Resources/Images/folderIcon_mini.png"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                                <ListBox BorderThickness="0" ItemsSource="{Binding Files}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="../Resources/Images/fileIcon_mini.png"/>
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.Style>
+                                        <Style>
+                                        </Style>
+                                    </ListBox.Style>
+                                </ListBox>
                             </StackPanel>
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
@@ -101,7 +117,15 @@
                     </ListBox>
                 </TabItem>
                 <TabItem Header="Classic view">
-                    <ListBox x:Name="CloudItemsBox" ItemsSource="{Binding }">
+                    <ListBox x:Name="CloudItemsBox" 
+                             ItemsSource="{Binding Path=SelectedItem, Source={x:Reference Name=CloudTreeView}}"
+                             HorizontalAlignment="Stretch"
+                             ItemTemplate="{StaticResource CloudPanel}"
+                             Tag="{Binding ElementName=CloudWindow}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
 
                     </ListBox>
                 </TabItem>

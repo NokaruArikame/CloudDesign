@@ -23,9 +23,9 @@ namespace ClientWPF.Model
         //public virtual List<ArchiveFile> Files { get; set; } = new List<ArchiveFile>();
 
         [DataMember]
-        public virtual IFolder ParentFolder { get; set; }
+        public override IFolder ParentFolder { get; set; }
 
-        public int ParentId { get; set; }
+        public override int ParentId { get; set; }
 
         //[DataMember]
         //public virtual List<ArchiveFolder> Folders { get; set; } = new List<ArchiveFolder>();
