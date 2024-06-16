@@ -13,8 +13,17 @@ namespace ServerWCF.Service
         [OperationContract]
         string GetUser(string name);
         [OperationContract]
-        void AddUser(string name, string pass);
+        void AddUser(string name, string password);
         [OperationContract]
-        void RemoveUser(string name);
+        bool RemoveUser(string name);
+        [OperationContract]
+        bool LoginUser(string name, string password);
+        [OperationContract]
+        bool LogoutUser(int userId);
+        [OperationContract]
+        bool ChangePasswordUser(string oldPassword, string newPassword);
+
+        [OperationContract]
+        string GetAuthInfo();
     }
 }

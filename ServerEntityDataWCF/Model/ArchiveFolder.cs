@@ -11,29 +11,14 @@ namespace ServerEntityDataWCF.Model
     [DataContract(IsReference =true)]
     public class ArchiveFolder : IFolder
     {
-        /*[DataMember(IsRequired = true)]
-        public string Name { get; set; }
-
-        [DataMember(IsRequired = true)]
-        public int Id { get; set; }*/
 
         [DataMember]
         public string Path { get; set; }
-
-        //[DataMember]
-        //public virtual List<ArchiveFile> Files { get; set; } = new List<ArchiveFile>();
 
         [DataMember]
         public virtual IFolder ParentFolder { get; set; }
 
         public int ParentId { get; set; }
 
-        //[DataMember]
-        //public virtual List<ArchiveFolder> Folders { get; set; } = new List<ArchiveFolder>();
-
-        //[DataMember(IsRequired = true)]
-        //public virtual UserCloud UserCloud { get; set; }
-
-        //public int UserCloudId { get; set; }
     }
 }

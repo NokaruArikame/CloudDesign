@@ -29,8 +29,6 @@ namespace ServerWCF.ServiceInner
 
         public static string ArchiveFolderToJson(List<ArchiveFolder> archiveFolders)
         {
-            if (archiveFolders.Count <1)
-                throw new ArgumentException(nameof(archiveFolders)+" dont exist objects.");
             string archiveFolderString = JsonConvert.SerializeObject(archiveFolders, Formatting.Indented);
             return archiveFolderString;
         }
@@ -43,6 +41,12 @@ namespace ServerWCF.ServiceInner
             return archiveFolders;
         } 
 
-
+        public static string UserCloudToJson(UserCloud userCloud)
+        {
+            if(userCloud == null)
+                throw new ArgumentNullException(nameof(userCloud));
+            string userCloudString = JsonConvert.SerializeObject(userCloud);
+            return userCloudString;
+        }
     }
 }

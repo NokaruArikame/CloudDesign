@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ServerEntityDataWCF.Repositores;
 using ServerEntityDataWCF.Model;
+using System.ServiceModel;
 
 namespace ServerWCF.Service
 {
@@ -11,20 +12,38 @@ namespace ServerWCF.Service
     {
         public void AddUser(string name, string pass)
         {
-            UserRepository.AddUser(name, pass);
+            EntityUserRepository.AddUser(name, pass);
+        }
+
+        public bool ChangePasswordUser(string oldPassword, string newPassword)
+        {
+            throw new NotImplementedException();
         }
 
         public string GetUser(string name)
         {
-            User user = UserRepository.GetUser(name);
+            User user = EntityUserRepository.GetUser(name);
             if (user == null)
                 return null;
-            return "Id:"+user.Id + " Name:" + user.Name + " Folder:" + user.UserCloud.Name+"Folder Id:" + user.UserCloud.Id;
+            return "Id:" + user.Id + " Name:" + user.Name + " Folder:" + user.UserCloud.Name + "Folder Id:" + user.UserCloud.Id;
         }
 
-        public void RemoveUser(string name)
+        public bool LoginUser(string name, string password)
         {
-            UserRepository.RemoveUser(name);
+            throw new NotImplementedException();
         }
+
+        public bool LogoutUser(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveUser(string name)
+        {
+            EntityUserRepository.RemoveUser(name);
+            return true;
+        }
+
+        public string GetAuthInfo() { return ServiceSecurityContext.Current.PrimaryIdentity.Name; }
     }
 }

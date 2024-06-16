@@ -1,0 +1,3 @@
+C:\Projects\Csh\WCF\DigitalDesign\ServerWCFConsole\obj\Debug\ServerWCFConsole.csproj.AssemblyReference.cache
+C:\Projects\Csh\WCF\DigitalDesign\ServerWCFConsole\obj\Debug\ServerWCFConsole.csproj.SuggestedBindingRedirects.cache
+C:\Projects\Csh\WCF\DigitalDesign\ServerWCFConsole\obj\Debug\ServerWCFConsole.csproj.CoreCompileInputs.cache
